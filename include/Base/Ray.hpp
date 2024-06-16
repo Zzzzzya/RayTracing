@@ -25,11 +25,11 @@ class Ray {
         return o + d.normalized() * t;
     }
 
-    inline const Point3 &orig() const {
+    inline const Point3 orig() const {
         return o;
     }
 
-    inline const Vector3 &dir() const {
+    inline const Vector3 dir() const {
         return d;
     }
 

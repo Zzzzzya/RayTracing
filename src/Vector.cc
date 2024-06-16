@@ -18,7 +18,7 @@ float Vector3::z() const {
     return this->zz;
 }
 
-float Vector3::operator[](int i) const {
+float &Vector3::operator[](int i) {
     switch (i) {
     case 0:
         return xx;
@@ -71,6 +71,10 @@ Vector3 Vector3::rand() {
     return Vector3(random_double(), random_double(), random_double()).normalized();
 }
 
+Vector3 Vector3::rand(double min, double max) {
+    return Vector3(random_double(min, max), random_double(min, max), random_double(min, max));
+}
+
 Vector3 Vector3::randLen(double len) {
     return rand() * len;
 }
@@ -109,4 +113,23 @@ Vector3 Vector3::refract(const Vector3 &n, double etai_over_etat) const {
 
     // 返回总的折射向量
     return r_out_perp + r_out_parallel;
+}
+
+Vector3 rotx(double alpha, Vector3 a) {
+    auto cosine = std::cos(d2r(alpha));
+    auto sine = std::sin(d2r(alpha));
+
+    return Vector3(a.x(), a.y() * cosine - a.z() * sine, a.y() * sine + a.z() * cosine);
+}
+
+Vector3 roty(double alpha, Vector3 a) {
+    auto cosine = std::cos(d2r(alpha));
+    auto sine = std::sin(d2r(alpha));
+    return Vector3(a.x() * cosine + a.z() * sine, a.y(), -a.x() * sine + a.z() * cosine);
+}
+
+Vector3 rotz(double alpha, Vector3 a) {
+    auto cosine = std::cos(d2r(alpha));
+    auto sine = std::sin(d2r(alpha));
+    return Vector3(a.x() * cosine - a.y() * sine, a.x() * sine + a.y() * cosine, a.z());
 }

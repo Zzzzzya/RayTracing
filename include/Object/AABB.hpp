@@ -57,3 +57,7 @@ class AABB {
         return true;
     }
 };
+
+AABB operator+(const AABB &bbox, const Vector3 &offset);
+
+AABB operator+(const Vector3 &offset, const AABB &bbox);

@@ -19,9 +19,9 @@ class Camera {
     Vector3 vup = Vector3(0, 1, 0);
 
     double samplesPerPixel = 4; // 随机采样AA的个数
-    double MSAA_samplesX_PerPixel = 4;
-    double MSAA_samplesY_PerPixel = 4;
-    int diffuseMaxDepth = 50;
+    double MSAA_samplesX_PerPixel = 50;
+    double MSAA_samplesY_PerPixel = 50;
+    int diffuseMaxDepth = 40;
     double kd = 0.7;
 
     ColorRGB Background = ColorRGB(0, 0, 0);

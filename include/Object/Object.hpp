@@ -95,4 +95,7 @@ class Quad : public hittable {
     void setAABB();
 };
 
+// 5. 立方体
+class Scene;
+shared_ptr<Scene> box(const Point3 &a, const Point3 &b, shared_ptr<Material> mat);
 #endif

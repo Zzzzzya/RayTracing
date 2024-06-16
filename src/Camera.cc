@@ -93,7 +93,6 @@ void Camera::Render_withoutAA(const hittable &object, std::string outPath) {
 ColorRGB Camera::ray_Color(const Ray &ray, const hittable &object, int Depth) {
     if (Depth >= diffuseMaxDepth)
         return ColorRGB(0, 0, 0);
-
     InterPoint curInter;
     if (!object.hit(ray, Interval(0.001, infinity), curInter))
         return Background;
@@ -102,6 +101,7 @@ ColorRGB Camera::ray_Color(const Ray &ray, const hittable &object, int Depth) {
     ColorRGB Emitting = curInter.met->Emit(curInter);
     ColorRGB col;
     Ray scattered;
+
     if (!curInter.met->Scatter(ray, curInter, col, scattered)) {
         return Emitting;
     }

@@ -22,7 +22,7 @@ class Vector3 {
     float x() const;
     float y() const;
     float z() const;
-    float operator[](int i) const;
+    float &operator[](int i);
     float len() const;
     float len_squared() const;
 
@@ -55,6 +55,8 @@ class Vector3 {
 
     // 随机生成一个单位向量
     static Vector3 rand();
+
+    static Vector3 rand(double min, double max);
 
     static Vector3 randLen(double len);
 
@@ -124,4 +126,7 @@ inline Vector3 refract2(const Vector3 &uv, const Vector3 &n, double etai_over_et
     return r_out_perp + r_out_parallel;
 }
 
+Vector3 rotx(double alpha, Vector3 a);
+Vector3 roty(double alpha, Vector3 a);
+Vector3 rotz(double alpha, Vector3 a);
 #endif

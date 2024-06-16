@@ -9,11 +9,11 @@ bool Lambertian::Scatter(const Ray &ray, const InterPoint &inter, ColorRGB &col,
 
     // 防止生成向量刚好和法线反向 +后为0向量
 
-    dir = Vector3::rand() + inter.nor;
+    dir = Vector3::rand(-1, 1).normalized() + inter.nor;
     if (dir.isZero())
-        dir = inter.nor + Vector3::rand();
-    scattered = Ray(inter.loc, dir, ray.time());
-    col = inter.tex ? inter.tex->value(inter.u, inter.v, inter.loc) : albedo;
+        dir = inter.nor + Vector3::rand(-1, 1).normalized();
+    scattered = Ray(inter.loc, dir.normalized(), ray.time());
+    col = (inter.tex ? inter.tex->value(inter.u, inter.v, inter.loc) : albedo);
 
     return true;
 }
@@ -29,7 +29,7 @@ bool Glass::Scatter(const Ray &ray, const InterPoint &inter, ColorRGB &col, Ray 
 bool Metal::Scatter(const Ray &ray, const InterPoint &inter, ColorRGB &col, Ray &scattered) const {
     // 金属的反射 ---> 是 fuzz + 镜面反射！
 
-    Vector3 dir = ray.dir().reflect(inter.nor).normalized() + Vector3::rand() * fuzz;
+    Vector3 dir = ray.dir().reflect(inter.nor).normalized() + Vector3::rand(-1, 1).normalized() * fuzz;
     scattered = Ray(inter.loc, dir, ray.time());
     col = inter.tex ? inter.tex->value(inter.u, inter.v, inter.loc) : albedo;
     return dot(dir, inter.nor) > 0;

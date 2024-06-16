@@ -34,3 +34,34 @@ class hittable {
     virtual bool hit(const Ray &ray, Interval rayT, InterPoint &inter) const = 0;
     virtual AABB aabb() const = 0;
 };
+
+class translate : public hittable {
+  public:
+    translate(shared_ptr<hittable> object, const Vector3 &offset) : object(object), offset(offset) {
+        bbox = object->aabb() + offset;
+    }
+    bool hit(const Ray &r, Interval ray_t, InterPoint &rec) const override;
+    AABB aabb() const override {
+        return bbox;
+    }
+
+  private:
+    shared_ptr<hittable> object;
+    Vector3 offset;
+    AABB bbox;
+};
+
+class rotate_y : public hittable {
+  public:
+    rotate_y(shared_ptr<hittable> object, double angle);
+    bool hit(const Ray &r, Interval ray_t, InterPoint &rec) const override;
+    AABB aabb() const override {
+        return bbox;
+    }
+
+  private:
+    shared_ptr<hittable> object;
+    double sin_theta;
+    double cos_theta;
+    AABB bbox;
+};
