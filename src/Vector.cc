@@ -1,4 +1,5 @@
 #include "Vector.hpp"
+#include "Head.hpp"
 #include <cmath>
 #include <exception>
 
@@ -66,22 +67,46 @@ Vector3 &Vector3::operator/=(const float &t) {
     return *this;
 }
 
-inline void Vector3::normalize() {
-    auto len = this->len();
-    if (!len) {
-        return;
-    }
-    xx /= len;
-    yy /= len;
-    zz /= len;
-    return;
+Vector3 Vector3::rand() {
+    return Vector3(random_double(), random_double(), random_double()).normalized();
 }
 
-inline Vector3 Vector3::normalized() const {
-    auto len = this->len();
-    if (!len) {
-        return Vector3();
-    }
+Vector3 Vector3::randLen(double len) {
+    return rand() * len;
+}
 
-    return Vector3(xx / len, yy / len, zz / len);
+Vector3 Vector3::randOnHemisphere(Vector3 nor) {
+    auto r = rand();
+    if (dot(r, nor) > 0)
+        return r;
+    return -r;
+}
+
+Vector3 Vector3::randomXYunit() {
+    while (true) {
+        auto p = Vector3(random_double(-1, 1), random_double(-1, 1), 0);
+        if (p.len_squared() < 1)
+            return p;
+    }
+}
+
+Vector3 Vector3::reflect(const Vector3 &n) const {
+    // 返回按照n向量对称的向量。默认传入的n为单位向量。
+    return *this - n * dot(*this, n) * 2;
+}
+
+Vector3 Vector3::refract(const Vector3 &n, double etai_over_etat) const {
+
+    // 计算入射向量和法线向量之间的余弦值
+    auto cos_theta = std::fmin(dot(-*this, n), 1.0);
+
+    // 计算垂直于法线的折射向量分量
+    Vector3 r_out_perp = etai_over_etat * (*this + cos_theta * n);
+
+    // 计算平行于法线的折射向量分量
+    double len_squared = r_out_perp.len_squared();
+    Vector3 r_out_parallel = -sqrt(fabs(1.0 - len_squared)) * n;
+
+    // 返回总的折射向量
+    return r_out_perp + r_out_parallel;
 }

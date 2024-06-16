@@ -1,0 +1,27 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "RayTraceInOneWeekend",
+  "steps": [
+    {
+      "file": "include/Vector.hpp",
+      "description": "Step 1\r\n创建自己的Vector3类。这是颜色、坐标、方向等一切的基础。",
+      "line": 7
+    },
+    {
+      "file": "include/Color.hpp",
+      "description": "Step 2\r\n将Vector3类用于颜色类、点类。",
+      "line": 8
+    },
+    {
+      "file": "include/Color.hpp",
+      "description": "Step 3\r\n绘制颜色函数。将指定颜色绘制到像素上。这里采用ppm格式。",
+      "line": 11
+    },
+    {
+      "file": "include/Ray.hpp",
+      "description": "创建光线类。\r\n",
+      "line": 8
+    }
+  ],
+  "ref": "main"
+}
